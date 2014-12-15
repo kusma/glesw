@@ -22,7 +22,7 @@ def format_typedef(command):
     if ptype != None:
         returntype += ptype.text or ""
 
-    apientry = "GLAPIENTRY"
+    apientry = "GL_APIENTRY"
     typename = get_typename(proto.find('name').text)
     params = format_params(command);
     return "typedef " + returntype + " (" + apientry + " * " + typename + ")(" + params + ");"
@@ -94,7 +94,7 @@ def emit_api_extensions(root, api):
     # them from the normal GLES headers for now.
 
     print "#include <GLES2/gl2.h>"
-    print "#include <GLES2/gl2ext.h>"
+#    print "#include <GLES2/gl2platform.h>"
     print
 
     defs = []
