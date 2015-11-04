@@ -88,14 +88,12 @@ def emit_extension(root, api, extension, defs, members, body):
 
     members.append("")
 
-def emit_api_extensions(root, api):
+def emit_api_extensions(fp, root, api):
 
     # TODO: we don't generate some dependent typedefs properly, so get
     # them from the normal GLES headers for now.
 
-    print "#include <GLES2/gl2.h>"
-#    print "#include <GLES2/gl2platform.h>"
-    print
+    fp.write("#include <GLES2/gl2.h>\n\n");
 
     defs = []
     members = []
@@ -107,9 +105,7 @@ def emit_api_extensions(root, api):
         if api in supported:
            emit_extension(root, api, extension, defs, members, body)
 
-    for line in defs:
-        print line
-    print
+    fp.write("\n".join(defs) + "\n")
 
     print "struct extensions\n{\n"
     for member in members:
@@ -130,4 +126,4 @@ if __name__ == '__main__':
 
     tree = xml.etree.ElementTree.parse(args.infile)
     root = tree.getroot()
-    emit_api_extensions(root, 'gles2')
+    emit_api_extensions(sys.stdout, root, 'gles2')
